@@ -27,11 +27,11 @@ const GameScreen = () => {
   ]);
 
   const initPandaClone = () => {
-    // const room =prompt('Enter Room Id')
-    const room = "any";
+    const room =prompt('Enter Room Id')
+    // const room = "any";
     setRoomId(room);
-    // const name =prompt('Enter User name')
-    const name = "badal";
+    const name =prompt('Enter User name')
+    // const name = "badal";
     const newUser = { ...user, name };
     setUser(newUser);
     console.log("user", user);
