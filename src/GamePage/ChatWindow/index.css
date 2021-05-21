@@ -1,0 +1,7 @@
+.ChatWindow{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    max-height: 100vh;
+    background-color: #737;
+}

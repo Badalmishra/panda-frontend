@@ -1,0 +1,11 @@
+.ChatInput{
+    height: 50px;
+    box-sizing: border-box;
+    background-color: rgb(34, 33, 33);
+    outline: unset;
+    border: unset;
+    padding: 5px;
+}
+.ChatInput:focus {
+    background-color: white;
+}

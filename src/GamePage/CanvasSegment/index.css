@@ -1,0 +1,27 @@
+.CanvasSegment{
+   flex-grow: 1; 
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+}
+.CanvasSegment h1{
+    color: white;
+    padding: 10px;
+    font-family: monospace;
+    background-color: #44a;
+}
+.CanvasSegment button{
+    background-color: transparent;
+    border:2px solid steelblue;
+    color: steelblue;
+    padding:10px;
+    font-size:20px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.CanvasSegment button:hover{
+    background-color: steelblue;
+    color: white;
+    padding:10px;
+    font-size:20px;
+}
