@@ -39,7 +39,7 @@ const GameScreen = () => {
         ...newUser,
       },
     };
-    const serverUrl = `https://socket.badalmishrs.net/`;
+    const serverUrl = `https://socket.badalmishrs.net`;
     socket.current = socketClient(serverUrl, opts);
     socket.current.request = socketPromise(socket.current);
     setupListeners(room);
