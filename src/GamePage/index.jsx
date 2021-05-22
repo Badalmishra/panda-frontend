@@ -4,6 +4,7 @@ import { v4 as uuid4 } from "uuid";
 import CanvasSegment from "./CanvasSegment";
 import ChatWindow from "./ChatWindow";
 import "./index.css";
+import Word from "./Word";
 const socketPromise = require("../socket.io-promise").promise;
 
 const GameScreen = () => {
@@ -12,22 +13,16 @@ const GameScreen = () => {
   const [turn, setTurn] = useState(false);
   const [canvasData, setCanvasData] = useState('');
   const [roomId, setRoomId] = useState(0);
+  const [word, setWord] = useState('');
   const [user, setUser] = useState({ id: uuid4() });
   const [messages, setMessages] = useState([
-    {
-      EIO: "3",
-      id: "b66cda87-bfe0-4c6b-8bac-ca9be690d30d",
-      message: "Hello everyone",
-      name: "badal",
-      roomId: "any",
-      sender: "894fa69c-719f-45e3-a5c8-75f7e5332de7",
-      time: 1621620935213,
-      transport: "websocket",
-    },
   ]);
 
   const initPandaClone = () => {
-    const room =prompt('Enter Room Id')
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+    const room =urlParams.get("roomId") ||prompt('Enter Room Id')
     // const room = "any";
     setRoomId(room);
     const name =prompt('Enter User name')
@@ -60,13 +55,14 @@ const GameScreen = () => {
     socket.current.on("peerDisconnected", (data) => {
       console.log("Disconnected peer", data);
       setMembers((members) => [
-        ...members.filter((member) => member.id !== data.id),
+        ...members.filter((member) => member.id !== data.user.id),
       ]);
     });
     socket.current.on("newPeerConnected", (data) => {
       setMembers((members) => [...members, data.user]);
     });
     socket.current.on("joined", (data) => {
+      console.log('joined data: ', data);
       setMembers([...data.userList]);
     });
     socket.current.on("message", (data) => {
@@ -78,7 +74,12 @@ const GameScreen = () => {
     });
     socket.current.on("turn", (data) => {
       console.log('turn data: ', data);
+      setWord('')
       setTurn(data)
+    });
+    socket.current.on("word", (data) => {
+      console.log('word data: ', data);
+      setWord(data)
     });
   };
   useEffect(initPandaClone, []);
@@ -94,7 +95,10 @@ const GameScreen = () => {
   }
   return (
     <div className="GameSreen">
-      <CanvasSegment turn={turn} user={user} passTurn={passTurn} sendCanvasData={sendCanvasData} canvasData={canvasData}/>
+      <CanvasSegment word={word} members={members} turn={turn} user={user} passTurn={passTurn} sendCanvasData={sendCanvasData} canvasData={canvasData}/>
+      
+
+
       <ChatWindow sendMessage={sendMessage} user={user} messages={messages} />
     </div>
   );

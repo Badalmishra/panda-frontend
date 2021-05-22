@@ -1,0 +1,32 @@
+.Member {
+    padding: 5px 10px;
+    color: white;
+    text-transform: capitalize;
+    margin-left: 5px;
+    border: 1px solid grey;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+}
+.active-member {
+    font-weight: bolder;
+    border: 1px dashed yellow;
+    color: green;
+    position: relative;
+    background-color: white;
+}
+.active-member .marker {
+    
+    margin-right: 5px;
+}
+.point {
+    margin-left: 5px;
+    background-color: teal;
+    color: white;
+    height: 18px;
+    min-width: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+}

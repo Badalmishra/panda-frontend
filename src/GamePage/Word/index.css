@@ -1,0 +1,7 @@
+.word {
+    color: white;
+    padding: 10px;
+    font-family: monospace;
+    background-color: #555!important;
+    text-align: center;
+}

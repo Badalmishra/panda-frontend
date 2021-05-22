@@ -8,7 +8,7 @@ const Message = ({message={},user={}}) => {
                 <span className="MessageName">{message.name}</span>
                 <span className='container'>
                     <span className="MessageTime">{moment(message.time).fromNow()}</span>
-                    <span className='MessageBoby'>{message.message}</span>
+                    <span className={'MessageBoby '+(message.isAnswer &&'answer')}>{message.message}</span>
                 </span>
             </span>
         </div>
