@@ -7,6 +7,7 @@ import MemberList from "./MemberList";
 const CanvasSegment = ({
   turn,
   user,
+  time,
   passTurn,
   members,
   word,
@@ -28,6 +29,7 @@ const CanvasSegment = ({
   return (
     <div className="CanvasSegment">
       <h1>Panda Draw Clone</h1>
+      <h1 style={{backgroundColor:'#1e1e1f',fontSize:'20px',padding:'5px'}}>Time: {time}</h1>
       <MemberList members={members} turn={turn} />
       <Word word={word}/>
       {/* Primary canvas, Player can draw here */}

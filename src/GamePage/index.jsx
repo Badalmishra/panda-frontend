@@ -4,16 +4,20 @@ import { v4 as uuid4 } from "uuid";
 import CanvasSegment from "./CanvasSegment";
 import ChatWindow from "./ChatWindow";
 import "./index.css";
-import Word from "./Word";
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 const socketPromise = require("../socket.io-promise").promise;
 
 const GameScreen = () => {
   const socket = useRef(null);
+  const interval = useRef(null);
+  const timeout = useRef(null);
   const [members, setMembers] = useState([]);
   const [turn, setTurn] = useState(false);
   const [canvasData, setCanvasData] = useState('');
   const [roomId, setRoomId] = useState(0);
   const [word, setWord] = useState('');
+  const [time, setTime] = useState(0);
   const [user, setUser] = useState({ id: uuid4() });
   const [messages, setMessages] = useState([
   ]);
@@ -44,6 +48,19 @@ const GameScreen = () => {
     socket.current.request = socketPromise(socket.current);
     setupListeners(room);
   };
+  const getUser =()=>user
+  const getTurn =()=>turn
+  const passTurn =  () => {
+    
+    console.log('passTurn: ');
+    socket.current.emit("passTurn");
+  }
+  const sendMessage = (message) => {
+    socket.current.emit("message", { message });
+  };
+  const sendCanvasData= (data) => {
+    socket.current.emit("canvas", data);
+  }
   const setupListeners = (room) => {
     socket.current.on("connect", async () => {
       console.log("socket.current: ", socket.current);
@@ -73,7 +90,25 @@ const GameScreen = () => {
       setCanvasData(data)
     });
     socket.current.on("turn", (data) => {
-      console.log('turn data: ', data);
+      clearInterval(interval.current)
+      clearTimeout(timeout.current)
+      if (data) {
+        NotificationManager.success('Time over or player passed thier turn', 'Next Players Turn')
+        if (data.previousWord) {
+          NotificationManager.info(data.previousWord, 'PreviousvWord')
+        }
+        setTime(0)
+        console.log('turn.id === getUser().id: ', data , getUser().id);
+        interval.current = setInterval(()=>{
+          setTime(time=> ++time)
+        },1000)
+      }
+      if (data&& (data.id === getUser().id)) {
+        timeout.current = setTimeout(()=>{
+            passTurn()
+        },30000)
+      }
+      console.log('turn data: ', data ,getUser());
       setWord('')
       setTurn(data)
     });
@@ -83,23 +118,15 @@ const GameScreen = () => {
     });
   };
   useEffect(initPandaClone, []);
-  const passTurn =  () => {
-    console.log('passTurn: ');
-    socket.current.emit("passTurn");
-  }
-  const sendMessage = (message) => {
-    socket.current.emit("message", { message });
-  };
-  const sendCanvasData= (data) => {
-    socket.current.emit("canvas", data);
-  }
+ 
   return (
     <div className="GameSreen">
-      <CanvasSegment word={word} members={members} turn={turn} user={user} passTurn={passTurn} sendCanvasData={sendCanvasData} canvasData={canvasData}/>
+      <CanvasSegment time={time} word={word} members={members} turn={turn} user={user} passTurn={passTurn} sendCanvasData={sendCanvasData} canvasData={canvasData}/>
       
 
 
       <ChatWindow sendMessage={sendMessage} user={user} messages={messages} />
+      <NotificationContainer/>
     </div>
   );
 };

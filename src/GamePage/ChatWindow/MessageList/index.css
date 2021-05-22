@@ -7,6 +7,11 @@
     flex-direction: column;
     background-color: #444;
 }
+.MessageList h1 {
+  padding: 50px 10px;
+  color: #aaa;
+  text-align: center;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

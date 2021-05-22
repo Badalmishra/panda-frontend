@@ -9,7 +9,9 @@ const MessageList = ({messages=[],user={}}) => {
     },[messages])
     return (
         <div className='MessageList'>
-            {messages.map(message=><Message user={user} message={message}/>)}
+            {messages && messages.map(message=><Message user={user} message={message}/>)}
+            {(!messages || (messages && messages.length===0)) &&
+            <h1>Messages will come here</h1>}
             <div ref={bottomRef}></div>
         </div>
     )
