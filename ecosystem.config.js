@@ -21,7 +21,7 @@ module.exports = {
             host: ['65.1.37.85'],
             ref: 'origin/main',
             repo: 'git@github.com:Badalmishra/panda-frontend.git',
-            path: '/home/ubuntu/workspace/panda-frontend',
+            path: '/home/ubuntu/panda-frontend',
             'post-deploy': 'node --max_old_space_size=4096 && npm install && npm run build',
             ssh_options: 'StrictHostKeyChecking=no',
             env: {
